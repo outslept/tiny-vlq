@@ -33,8 +33,9 @@ const digitOf = (code: number): number => {
 
 export function encode(value: number): string {
   assertInt32(value);
-  const negative = value < 0 || Object.is(value, -0);
+  const negative = value < 0;
   let rest = negative ? -value * 2 + 1 : value * 2;
+  if (rest > 0xffffffff) rest -= 0x100000000;
   let out = "";
   do {
     const digit = rest % 32;
@@ -74,6 +75,9 @@ export function decode(input: string, offset = 0): DecodeResult {
       const magnitude = (value - (negative ? 1 : 0)) / 2;
       if (!negative && magnitude > INT32_MAX) {
         throw new Error("vlq: value exceeds 32-bit range");
+      }
+      if (negative && magnitude === 0) {
+        return { value: INT32_MIN, offset: i };
       }
       return { value: negative ? -magnitude : magnitude, offset: i };
     }
