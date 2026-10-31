@@ -31,19 +31,19 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vp pack",
-    "dev": "vp pack --watch",
-    "test": "vp test",
-    "check": "vp check",
-    "prepublishOnly": "vp run build",
-    "prepare": "vp config"
+    "build": "tsdown --dts",
+    "dev": "tsdown --dts --watch",
+    "test": "vitest run",
+    "check": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "publint": "tsdown --dts --publint"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
     "bumpp": "^11.1.0",
+    "tsdown": "latest",
     "typescript": "^7.0.2",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vitest": "latest"
   },
   "devEngines": {
     "packageManager": {
