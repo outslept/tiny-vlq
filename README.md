@@ -1,15 +1,28 @@
 # tiny-vlq
 
-Base64 VLQ encoding for signed 32-bit integers. See https://tc39.es/ecma426/#sec-base64-vlq
+Tiny, fast Base64 VLQ encoder and decoder for Source Maps in TypeScript
 
 ## Usage
 
 ```ts
-import { encode, decode, encodeAll, decodeAll } from "tiny-vlq";
+import { decode, encode } from "tiny-vlq";
 
-encode(123); // "2H"
-decode("2H"); // 123
+encode(0); // "A"
+encode([0, 0, 16, 1]); // "AAgBC"
 
-encodeAll([1, -1, 0]); // "CDA"
-decodeAll("CDA"); // [1, -1, 0]
+decode("AAgBC"); // [0, 0, 16, 1]
 ```
+
+## API
+
+### `encode(value: number | readonly number[]): string`
+
+Encodes a single 32-bit signed integer or an array of 32-bit signed integers (`-2147483648` to `2147483647`) into a Base64 VLQ string.
+
+### `decode(input: string): number[]`
+
+Decodes a Base64 VLQ string into an array of 32-bit signed integers.
+
+## License
+
+MIT
